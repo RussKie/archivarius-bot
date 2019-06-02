@@ -16,7 +16,7 @@ const fields = {
 
 module.exports = Joi.object().keys({
   issueLabel: fields.issueLabel.default('status: incorrectly filled template'),
-  searchPatterns: fields.searchPatterns.default(['The sections below must be filled in and this text must be removed or the issue will be closed.']),
+  searchPatterns: fields.searchPatterns.default([/The sections below must be filled in and this text must be removed or the issue will be closed./gmu, /(## Steps to reproduce)(\s|\r\n)*?(## Error Details)/gmu]),
   referenceComment: fields.referenceComment.default(
     'Please fill in all required information and ping us back to re-open.'
   )

@@ -4,6 +4,28 @@ const schema = require('./config')
 const CONFIG_NAME = 'archivarius.yml'
 
 /**
+ * Checks the body of the issue for specified markers and, if any of them present,
+ * or the body itself is absent, marks the issue as incomplete
+ *
+ * @param   {string}    body
+ * @param   {string[]}  searchPatterns
+ * @return  {bool}
+ */
+function checkIncomplete (body, searchPatterns) {
+  if (!body || !body.trim()) {
+    return true
+  }
+
+  var bodyWithoutComments = body.replace(new RegExp(/<!--(.|\r|\n)*?-->/gmu), '')
+
+  var result = searchPatterns.find(pattern => {
+    var regex = RegExp(pattern)
+    return regex.test(bodyWithoutComments)
+  })
+  return !!result
+}
+
+/**
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} robot
  */
@@ -38,11 +60,7 @@ module.exports = robot => {
         }
       }
 
-      var incomplete = value.searchPatterns.find(pattern => {
-        var regex = RegExp(pattern);
-        return regex.test(body);
-      })
-
+      var incomplete = checkIncomplete(body, value.searchPatterns)
       if (incomplete) {
         await markAsIncompleteAndClose()
       }
@@ -55,7 +73,7 @@ module.exports = robot => {
      *
      * @return  {Promise}
      */
-    async function markAsIncompleteAndClose() {
+    async function markAsIncompleteAndClose () {
       const addLabel = context.github.issues.addLabels(context.issue({
         labels: [value.issueLabel]
       }))
@@ -83,3 +101,5 @@ module.exports = robot => {
   // To get your app running against GitHub, see:
   // https://probot.github.io/docs/development/
 }
+
+module.exports.checkIncomplete = checkIncomplete

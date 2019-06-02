@@ -24,7 +24,7 @@ referenceComment: >
 
 ## Deploying
 
-If you would like to run your own instance of this app, see the [docs for deployment](https://probot.github.io/docs/deployment/). This app requires both `Issues – Read & Write` and `Single File – Read` permissions & events.
+If you would like to run your own instance of this app, see the [docs for deployment](https://probot.github.io/docs/deployment/). This app requires both `Issues – Read & Write` and `Single File – Read` (`.github/archivarius.yml`) permissions & events.
 
 
 ## Setup
