@@ -1,12 +1,12 @@
 {
-  "name": "incomplete-bug-report-bot",
+  "name": "archivarius-bot",
   "version": "1.0.0",
-  "description": "A Probot app",
-  "author": "RussKie <russkie@gmail.com> (https://github.com/RussKie/incomplete-bug-report-bot)",
+  "description": "A configurable GitHub Probot App that ensures bug reports contains necessary information",
+  "author": "RussKie <russkie@gmail.com> (https://github.com/RussKie/archivarius-bot)",
   "license": "ISC",
-  "repository": "https://github.com/incomplete-bug-report-bot.git",
-  "homepage": "https://github.com/incomplete-bug-report-bot",
-  "bugs": "https://github.com/incomplete-bug-report-bot/issues",
+  "repository": "https://github.com/RussKie/archivarius-bot.git",
+  "homepage": "https://github.com/RussKie/archivarius-bot",
+  "bugs": "https://github.com/RussKie/archivarius-bot/issues",
   "keywords": [
     "probot",
     "github",

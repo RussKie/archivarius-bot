@@ -1,7 +1,7 @@
 const mustache = require('mustache')
 const schema = require('./config')
 
-const CONFIG_NAME = 'incomplete-bug-report.yml'
+const CONFIG_NAME = 'archivarius.yml'
 
 /**
  * This is the main entrypoint to your Probot app
