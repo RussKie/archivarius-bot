@@ -15,7 +15,7 @@ module.exports = robot => {
     'issues.opened',
     'issues.edited'
   ], async context => {
-    const { body, labels, state, locked } = context.payload.issue
+    const { number, body, labels, state, locked } = context.payload.issue
     const { error, value } = schema.validate(context.config(CONFIG_NAME))
 
     if (error) {
@@ -38,7 +38,14 @@ module.exports = robot => {
         }
       }
 
-      await markAsIncomplete()
+      var incomplete = value.searchPatterns.find(pattern => {
+        var regex = RegExp(pattern);
+        return regex.test(body);
+      })
+
+      if (incomplete) {
+        await markAsIncompleteAndClose()
+      }
     } catch (error) {
       robot.log.fatal(error, 'Something went wrong!')
     }
@@ -48,7 +55,7 @@ module.exports = robot => {
      *
      * @return  {Promise}
      */
-    async function markAsIncomplete () {
+    async function markAsIncompleteAndClose() {
       const addLabel = context.github.issues.addLabels(context.issue({
         labels: [value.issueLabel]
       }))
@@ -57,8 +64,13 @@ module.exports = robot => {
         body: mustache.render(value.referenceComment)
       }))
 
+      const closeIssue = context.github.issues.update(context.issue({
+        issue_number: number,
+        state: 'closed'
+      }))
+
       try {
-        await Promise.all([addLabel, createComment])
+        await Promise.all([addLabel, createComment, closeIssue])
       } catch (error) {
         robot.log.fatal(error, 'Could not mark as incomplete bug report!')
       }
