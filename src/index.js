@@ -38,7 +38,7 @@ module.exports = robot => {
     'issues.edited'
   ], async context => {
     const { number, body, labels, state, locked } = context.payload.issue
-    const { error, value } = schema.validate(context.config(CONFIG_NAME))
+    const { error, value } = schema.validate(await context.config(CONFIG_NAME))
 
     if (error) {
       robot.log.fatal(error, 'Invalid config')
